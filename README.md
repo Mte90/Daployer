@@ -4,6 +4,8 @@ The idea is based on this [tweet](https://twitter.com/martinwoodward/status/1117
 
 It is based on [AnalogZero](https://github.com/raspitv/analogzero) for the LCD library.
 
+![The full schema](./assets/schema.png)
+
 ## Install
 
 ### Software Requirements
