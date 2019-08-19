@@ -2,9 +2,10 @@ from gpiozero import TonalBuzzer
 from gpiozero.tones import Tone
 from gpiozero.tools import sin_values
 from time import sleep
+from utils.threaded import threaded
 
 
-class Buzzer:
+class Buzzer():
 
     def __init__(self, pin):
         self.buzzer = TonalBuzzer(pin)
@@ -23,7 +24,7 @@ class Buzzer:
     def scale(self, pick=1):
         music = ''
         pause = 1
-        print('  Scale ' + pick + '!')
+        print('  Scale ' + str(pick) + '!')
         if pick == 1:
             music = 'C4 D4 E4 F4 G4 A4 B4 C5'
             pause = 0.5
@@ -80,8 +81,9 @@ class Buzzer:
                 sleep(0.15)
                 self.no()
 
+    @threaded
     def for_seconds(self, seconds, sound='beep'):
-        print('  Beep for ' + seconds + '!')
+        print('  Beep for ' + str(seconds) + ' seconds!')
         if sound == 'beep':
             self.beep()
         else:

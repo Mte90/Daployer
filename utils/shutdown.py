@@ -10,4 +10,3 @@ class Shutdown(Thread):
             pulsante = Button(pin, pull_up=True)
             if pulsante.is_pressed:
                 exit()
-

@@ -1,5 +1,5 @@
-
 from utils.analogzero import lcddriver
+from utils.threaded import threaded
 
 
 class LCD:
@@ -14,5 +14,6 @@ class LCD:
         self.lcd.lcd_display_string('{:^20}'.format(messages[2]), 3)
         self.lcd.lcd_display_string('{:^20}'.format(messages[3]), 4)
 
+    @threaded
     def clear(self):
         self.lcd.lcd_clear()
