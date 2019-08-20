@@ -4,7 +4,7 @@ import os
 
 class Launcher():
 
-    page = 0
+    page = 1
     scripts = []
 
     def __init__(self):
@@ -12,15 +12,29 @@ class Launcher():
 
     def get_page(self, page):
         page = page * 3
-        write = self.scripts[:page]
+        previous_page = page - 3
+        if page == 1:
+            write = self.scripts[:page]
+        else:
+            write = self.scripts[previous_page:page]
+
         write.insert(0, 'Write script number:')
         print('   Printed page ' + str(self.page))
         return write
 
     def next_page(self):
-        self.page = self.page + 1
-        self.get_page(self.page)
-        pass
+        if (self.page * 3) < len(self.scripts):
+            self.page = self.page + 1
+            return self.get_page(self.page)
+        else:
+            return False
+
+    def previous_page(self):
+        if self.page != 0:
+            self.page = self.page - 1
+            return self.get_page(self.page)
+        else:
+            return False
 
     def get_scripts(self):
         items = glob.glob("./scripts/*.sh") + glob.glob("./scripts/*.py")

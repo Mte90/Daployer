@@ -4,40 +4,37 @@ from utils.threaded import threaded
 
 class Numpad:
 
+    track_key_for_lcd = {}
+
     def __init__(self, number_device, lcd):
         self.device = InputDevice('/dev/input/event' + number_device)
         self.device.grab()
         self.lcd = lcd
         print('    ' + str(self.device))
+        self.did_you_press_for_lcd()
 
-    def get(self, key=False):
+    @threaded
+    def did_you_press_for_lcd(self):
         for event in self.device.read_loop():
-            if event.type == ecodes.EV_KEY:
-                press = categorize(event)
-                if press.key_down and press.keystate == 0:
-                    button = press.keycode.replace('KEY_', '').replace('KP', '')
-                    button = button.replace('ASTERISK', '*').replace('MINUS', '-')
-                    button = button.replace('SLASH', '/').replace('DOT', '.')
-                    if key is not False:
-                        if button is key:
-                            return True
-                        else:
-                            return False
+            if self.track_key_for_lcd:
+                pressed = self.in_loop_is_key_down(event)
+                for button in self.track_key_for_lcd:
+                    if pressed == button:
+                        print('   Button ' + str(button) + ' pressed')
+                        self.lcd.write(self.track_key_for_lcd[button]())
 
-                    if key is False:
-                        return button
+    def get(self):
+        for event in self.device.read_loop():
+            return self.in_loop_is_key_down(event)
 
-    @threaded
+    def in_loop_is_key_down(self, event):
+        if event.type == ecodes.EV_KEY:
+            press = categorize(event)
+            if press.key_down and press.keystate == 0:
+                return self.convert(press.keycode)
+
     def signal_and_print(self, button, callback):
-        items = self.signal(button, callback)
-        print(items)
-        #self.lcd.write(items)
-
-    @threaded
-    def signal(self, button, callback):
-        while self.get(button):
-            pass
-        return callback()
+        self.track_key_for_lcd[button] = callback
 
     def get_clean(self):
         button = self.get()
@@ -57,3 +54,11 @@ class Numpad:
                 strings = ''
             else:
                 strings += button
+
+    def convert(self, button):
+        button = button.replace('KEY_', '').replace('KP', '')
+        button = button.replace('ASTERISK', '*').replace('MINUS', '-')
+        button = button.replace('SLASH', '/').replace('DOT', '.')
+        button = button.replace('PLUS', '+')
+
+        return button

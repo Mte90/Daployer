@@ -35,3 +35,8 @@ buzzer.for_seconds(2)
 lcd.write(launcher.get_page(1))
 
 key.signal_and_print('+', launcher.next_page)
+key.signal_and_print('-', launcher.previous_page)
+
+# To let the program still running with the other stuff async
+while True:
+    pass
