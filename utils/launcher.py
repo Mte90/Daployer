@@ -10,6 +10,12 @@ class Launcher():
     def __init__(self):
         self.scripts = self.get_scripts()
 
+    def run(self, number):
+        if number in self.scripts:
+            return True, ['', 'Script executed:', self.scripts[number], '']
+        else:
+            return False, ['', 'Script not found', 'Try again', '']
+
     def get_page(self, page):
         page = page * 3
         previous_page = page - 3
@@ -30,7 +36,7 @@ class Launcher():
             return False
 
     def previous_page(self):
-        if self.page != 0:
+        if self.page != 1:
             self.page = self.page - 1
             return self.get_page(self.page)
         else:

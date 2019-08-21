@@ -23,14 +23,14 @@ if config.has_option('pin', 'shutdown'):
     shutdown = Shutdown(config.get('pin', 'shutdown'))
     shutdown.start()
 lcd = LCD()
-key = Numpad(config.get('numpad', 'device'), lcd)
-buzzer = Buzzer(config.get('pin', 'buzzer'))
 launcher = Launcher()
+key = Numpad(config.get('numpad', 'device'), lcd, launcher)
+buzzer = Buzzer(config.get('pin', 'buzzer'))
 lcd.clear()
 
 messages = ['Welcome to Daployer', version, '', 'Loading in progress']
 lcd.write(messages)
-buzzer.for_seconds(2)
+buzzer.for_seconds(1)
 
 lcd.write(launcher.get_page(1))
 
