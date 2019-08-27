@@ -2,6 +2,7 @@ from evdev import InputDevice, categorize, ecodes
 from utils.threaded import threaded
 from time import sleep
 
+
 class Numpad:
 
     track_key_for_lcd = {}

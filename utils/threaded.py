@@ -12,6 +12,15 @@ def threaded(fn):
     return call
 
 
+def threaded_no_return(fn):
+    def call(*args, **kwargs):
+        job = Thread(target=fn, args=args,
+                     kwargs=kwargs)
+        job.start()
+
+    return call
+
+
 def threaded_with_queue(fn):
     def wrap(queue, *args, **kwargs):
         queue.put(fn(*args, **kwargs))
