@@ -47,7 +47,7 @@ class Launcher():
         if len(items) != 0:
             print_items = []
             for i, x in enumerate(items):
-                print_items.append(str(i) + ' ' + os.path.basename(x))
+                print_items.append(str(i) + ') ' + os.path.basename(x))
             return print_items
         else:
             return ['No scripts available', '', ':-(']
